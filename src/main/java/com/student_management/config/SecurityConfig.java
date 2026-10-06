@@ -36,7 +36,7 @@ public class SecurityConfig {
                 CorsConfiguration configuration = new CorsConfiguration();
 
                 configuration.setAllowedOrigins(
-                                List.of("http://localhost:3000"));
+                                List.of("http://localhost:3000","https://student-managementv1.up.railway.app"));
 
                 configuration.setAllowedMethods(
                                 List.of(
