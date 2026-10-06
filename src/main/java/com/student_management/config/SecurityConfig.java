@@ -31,38 +31,33 @@ public class SecurityConfig {
         }
 
         @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
+         public CorsConfigurationSource corsConfigurationSource() {
+          CorsConfiguration configuration = new CorsConfiguration();
 
-                CorsConfiguration configuration = new CorsConfiguration();
-
-                configuration.setAllowedOrigins(List.of(
+    // Cho phép các Origin kết nối
+    configuration.setAllowedOrigins(List.of(
         "http://localhost:3000",
         "https://student-managementv1.up.railway.app"
     ));
 
-                configuration.setAllowedMethods(
-                                List.of(
-                                                "GET",
-                                                "POST",
-                                                "PUT",
-                                                "DELETE",
-                                                "OPTIONS"));
+    // Cho phép đầy đủ các HTTP Method
+    configuration.setAllowedMethods(List.of(
+        "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
+    ));
 
-                configuration.setAllowedHeaders(
-                                List.of(
-                                                "Content-Type",
-                                                "Authorization"));
+    // Cho phép tất cả Headers truyền lên (tránh thiếu custom header)
+    configuration.setAllowedHeaders(List.of("*"));
+    
+    // Khai báo các Header mà client có thể đọc từ Response
+    configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
 
-                configuration.setAllowCredentials(true);
+    configuration.setAllowCredentials(true);
 
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
 
-                source.registerCorsConfiguration(
-                                "/**",
-                                configuration);
-
-                return source;
-        }
+    return source;
+}
 
         @Bean
         public SecurityFilterChain securityFilterChain(
