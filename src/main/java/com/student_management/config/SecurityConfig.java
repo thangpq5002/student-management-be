@@ -30,27 +30,40 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
-        @Bean
+   @Bean
 public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
 
-    // Dùng setAllowedOriginPatterns để khớp linh hoạt và ổn định hơn
-    configuration.setAllowedOriginPatterns(List.of(
-        "http://localhost:3000",
-        "https://student-managementv1.up.railway.app",
-        "https://*.up.railway.app"
+    configuration.setAllowedOrigins(List.of(
+            "http://localhost:3000",
+            "https://student-managementv1.up.railway.app"
     ));
 
-    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+    configuration.setAllowedMethods(List.of(
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH",
+            "OPTIONS"
+    ));
+
     configuration.setAllowedHeaders(List.of("*"));
-    configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+
+    configuration.setExposedHeaders(List.of(
+            "Authorization",
+            "Content-Type"
+    ));
+
     configuration.setAllowCredentials(true);
 
-    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+
     source.registerCorsConfiguration("/**", configuration);
+
     return source;
 }
-
 
 
         @Bean
