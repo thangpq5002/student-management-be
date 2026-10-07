@@ -31,33 +31,27 @@ public class SecurityConfig {
         }
 
         @Bean
-         public CorsConfigurationSource corsConfigurationSource() {
-          CorsConfiguration configuration = new CorsConfiguration();
+public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
 
-    // Cho phép các Origin kết nối
-    configuration.setAllowedOrigins(List.of(
+    // Dùng setAllowedOriginPatterns để khớp linh hoạt và ổn định hơn
+    configuration.setAllowedOriginPatterns(List.of(
         "http://localhost:3000",
-        "https://student-managementv1.up.railway.app"
+        "https://student-managementv1.up.railway.app",
+        "https://*.up.railway.app"
     ));
 
-    // Cho phép đầy đủ các HTTP Method
-    configuration.setAllowedMethods(List.of(
-        "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
-    ));
-
-    // Cho phép tất cả Headers truyền lên (tránh thiếu custom header)
+    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
-    
-    // Khai báo các Header mà client có thể đọc từ Response
     configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
-
     configuration.setAllowCredentials(true);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
-
     return source;
 }
+
+
 
         @Bean
         public SecurityFilterChain securityFilterChain(
